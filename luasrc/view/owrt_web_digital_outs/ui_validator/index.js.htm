@@ -1,0 +1,31 @@
+<!-- Generated list of JS-file included to the main page -->
+<!-- These files are form-field validators, built with Nearley.js method:
+	https://netping.atlassian.net/wiki/spaces/PROJ/pages/2809857522/html-
+-->
+<%
+local log = require "luci.model.netping.log"
+local fl = require 'luci.model.netping.relay.filelist'
+local vlist = fl({ path = '/www/' .. resource .. '/netping/nearley/validator/', grep = '.js$' })
+log("VALIDATOR", vlist)
+for i=1, #vlist do %>
+	<script type="text/javascript" src="<%=resource%>/netping/nearley/validator/<%=vlist[i] %>"></script>
+<% end %>
+
+
+<script type="text/javascript">
+//<![CDATA[
+	var grammaValidator = function(gramma, errormsg) {
+		return function(user_input_text) {
+			const parser = new nearley.Parser(nearley.Grammar.fromCompiled(gramma));
+			try {
+				parser.feed(user_input_text)
+				return true
+			}
+			catch (e) {
+				return errormsg
+			}
+		}
+	}
+
+//]]>
+</script>

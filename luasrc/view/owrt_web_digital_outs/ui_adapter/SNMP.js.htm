@@ -1,0 +1,196 @@
+<script type="text/javascript">
+//<![CDATA[
+L.require('ui').then(function(ui) {
+	L.require('dom').then(function(dom) {
+		L.require("uci").then(function(uci) {
+			uci.load("owrt_digital_outs").then(function(out){
+				var UIAdapterSNMP = ui.AbstractElement.extend(/** @lends LuCI.ui.Textarea.prototype */ {
+					__init__: function(relay_id) {
+
+						this.adapter_id = relay_id;
+						this.needsToSave = false;
+						this.isActive = false;
+						this.fields = {};
+
+						// -------------------------------------------------------
+						// Change the protocol name, config, and form fields below
+						//--------------------------------------------------------
+						this.proto = "SNMP"
+						this.config = "owrt_digital_outs"
+						//--------------------------------------------------------
+
+						var section = this.addSection();
+
+						this.fields = {
+							"address": new ui.Textfield(section["address"], { 
+								maxlength: 128, 
+								validate: this.nearleyValidator("address", "Введите IP-адрес, например: 192.168.0.1")
+							}),
+
+							"oid": new ui.Textfield(section["oid"], { 
+								maxlength: 128,
+								validate: this.nearleyValidator("oid", "Введите OID, напр.: .1.23.54.3.546.")
+							}),
+
+							"port": new ui.TextFieldStyled(section["port"], { 
+								datatype: "port",
+								htmlStyle: "width: 60px"
+							}),
+
+							"community": new ui.TextFieldStyled(section["community"], { 
+								datatype: "rangelength(3,32)",
+								htmlStyle: "width: 200px"
+							}),
+
+							"period": new ui.TextFieldStyled(section["period"], { 
+								htmlStyle: "width: 80px",
+								datatype: "rangelength(1,7)",
+								validate: this.nearleyValidator("period", "Секунды, милисекунды: от 0.001 до 999.999")
+							}),
+
+							"timeout": new ui.TextFieldStyled(section["timeout"], { 
+								htmlStyle: "width: 80px",
+								datatype: "rangelength(1,7)",
+								validate: this.nearleyValidator("timeout", "Секунды, милисекунды: от 0.001 до 999.999")
+							}),
+
+
+						}
+						//---------------------------------------------------------
+					},
+
+					/** @override */
+					render: function() {
+						var classActive = (this.isActive) ? ' active' : ''
+						var container = E('div', { class: 'table modal-section-param adapter snmp' + classActive}, [
+							E('div', {class: 'tr table-titles'}, [
+								E('div', {class: 'th', style: 'width: 100%'}, _("Параметры протокола " + this.proto)),
+								E('div', {class: 'th', style: "text-align: right;"}, _("Значение")),
+							]),
+							E('div', {class: 'tr cbi-rowstyle-1'}, [
+								E('div', {class: 'td'}, "Адрес реле"),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['address'].render()
+								])
+							]),
+							E('div', {class: 'tr cbi-rowstyle-2'}, [
+								E('div', {class: 'td'}, "OID"),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['oid'].render()
+								])
+							]),
+							E('div', {class: 'tr cbi-rowstyle-1'}, [
+								E('div', {class: 'td'}, "Community"),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['community'].render()
+								])
+							]),
+							E('div', {class: 'tr cbi-rowstyle-2'}, [
+								E('div', {class: 'td'}, "Порт"),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['port'].render()
+								])
+							]),
+							// Add new fields html-markup here
+							//
+							E('div', {class: 'tr cbi-rowstyle-2'}, [
+								E('div', {class: 'td'}, "Период, сек."),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['period'].render()
+								])
+							]),
+							E('div', {class: 'tr cbi-rowstyle-2'}, [
+								E('div', {class: 'td'}, "Таймаут, сек."),
+								E('div', {class: 'td', style: "text-align: right;"}, [
+									this.fields['timeout'].render()
+								])
+							]),
+
+						])
+						
+						return this.bind(container);
+					},
+
+
+					/** @private */
+					bind: function(container) {
+						this.node = container
+						var self = this
+
+						dom.bindClassInstance(container, this);
+
+						// Cusom override:
+						// We subscribe EventBus event which is emitted by "DropdownProto" widget (see ui_override)
+						
+						window.EventBus.register(this.node, 'bus-proto-changed', [],
+							function(ev) {
+								if(ev.detail["proto"] == 'SNMP') {
+									container.classList.add("active")
+									self.isActive = true
+								} else {
+									container.classList.remove("active")
+									self.isActive = false
+								}
+							}
+						);
+						
+						return container;
+					},
+					// {
+					//	"fieldname": "value"
+					// }
+					getValue: function() {
+						var data = {}
+						for (var name in this.fields) {
+							data[name] = this.fields[name].getValue() || ''
+						}
+						return data;
+					},
+
+					getFields: function() {
+						var data = []
+						for (var name in this.fields) {
+							//data.push(this.fields[name])
+							data.push(name)
+						}
+						return data;
+					},
+
+					// if user filled in protocol at first time, then
+					// we need to prepare uci section initially
+					addSection: function() {
+						var sec = uci.get(this.config, this.adapter_id)
+						if(sec == null) {
+							sec = uci.add(this.config, "snmp", this.adapter_id)
+							sec = uci.get(this.config, this.adapter_id)
+						}
+						return(sec)
+					},
+
+					nearleyValidator: function(field, errormsg) {
+						return function(user_input_text) {
+							// this function is declared at "ui_adapter/"SNMP.valid.js.htm"
+							var gramma = snmp_valid(field)
+							const parser = new nearley.Parser(nearley.Grammar.fromCompiled(gramma));
+							try {
+								var pf = parser.feed(user_input_text)
+								if (pf.results.length > 0)
+									return true // it's a requirement of LuCI widget API
+								else
+									return errormsg
+							}
+							catch (e) {
+								return errormsg
+							}
+						}
+					}
+
+				});
+
+				ui["SNMP"] = UIAdapterSNMP
+			});
+		});
+	});
+});
+//]]>
+</script>

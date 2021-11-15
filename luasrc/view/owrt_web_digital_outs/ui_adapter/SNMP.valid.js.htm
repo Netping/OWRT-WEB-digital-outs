@@ -1,0 +1,86 @@
+
+
+<script type="text/javascript">
+//<![CDATA[
+    var snmp_valid = function (fieldname) {
+        var grammar = {
+            //  ---------------------------------------------------------------------
+            //  ADD field name as key and compiled grammar as value
+            //  Grammar compilation is created using this specification:
+            //  https://netping.atlassian.net/wiki/spaces/PROJ/pages/2809857522/html-
+            //  =====================================================================
+            address: {
+                Lexer: undefined,
+                ParserRules: [
+                    {"name": "MAIN", "symbols": ["IP"]},
+                    {"name": "IP", "symbols": ["NUMBER", {"literal":"."}, "NUMBER", {"literal":"."}, "NUMBER", {"literal":"."}, "NUMBER"]},
+                    {"name": "NUMBER", "symbols": ["From_0_to_255"]},
+                    {"name": "From_0_to_255", "symbols": [/[0-9]/]},
+                    {"name": "From_0_to_255", "symbols": [/[1-9]/, /[0-9]/]},
+                    {"name": "From_0_to_255", "symbols": [{"literal":"1"}, /[0-9]/, /[0-9]/]},
+                    {"name": "From_0_to_255", "symbols": [{"literal":"2"}, /[0-4]/, /[0-9]/]},
+                    {"name": "From_0_to_255$string$1", "symbols": [{"literal":"2"}, {"literal":"5"}], "postprocess": function joiner(d) {return d.join('');}},
+                    {"name": "From_0_to_255", "symbols": ["From_0_to_255$string$1", /[0-5]/]}
+                ], 
+                ParserStart: "MAIN"
+            }, 
+            // The next field is followed by previous below:
+            // =============================================
+            oid: {
+                Lexer: undefined,
+                ParserRules: [
+                    {"name": "MAIN", "symbols": ["OID"]},
+                    {"name": "OID$ebnf$1$subexpression$1", "symbols": ["POINT", "SIDn"]},
+                    {"name": "OID$ebnf$1", "symbols": ["OID$ebnf$1$subexpression$1"]},
+                    {"name": "OID$ebnf$1$subexpression$2", "symbols": ["POINT", "SIDn"]},
+                    {"name": "OID$ebnf$1", "symbols": ["OID$ebnf$1", "OID$ebnf$1$subexpression$2"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+                    {"name": "OID", "symbols": ["OID$ebnf$1"]},
+                    {"name": "SIDn", "symbols": [/[0-9]/]},
+                    {"name": "SIDn", "symbols": [/[1-9]/, /[0-9]/]},
+                    {"name": "SIDn", "symbols": [/[1-9]/, /[0-9]/, /[0-9]/]},
+                    {"name": "SIDn", "symbols": [/[1-9]/, /[0-9]/, /[0-9]/, /[0-9]/]},
+                    {"name": "SIDn", "symbols": [/[1-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/]},
+                    {"name": "POINT", "symbols": [{"literal":"."}]}
+                ],
+                ParserStart: "MAIN"
+            },
+
+            period: {
+                Lexer: undefined,
+                ParserRules: [
+                    {"name": "MAIN$ebnf$1", "symbols": []},
+                    {"name": "MAIN$ebnf$1$subexpression$1", "symbols": [{"literal":"."}, "MILISECONDS"]},
+                    {"name": "MAIN$ebnf$1", "symbols": ["MAIN$ebnf$1", "MAIN$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+                    {"name": "MAIN", "symbols": ["SECONDS", "MAIN$ebnf$1"]},
+                    {"name": "SECONDS", "symbols": [/[0-9]/]},
+                    {"name": "SECONDS", "symbols": [/[1-9]/, /[0-9]/]},
+                    {"name": "SECONDS", "symbols": [/[1-9]/, /[0-9]/, /[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/, /[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/, /[0-9]/, /[0-9]/]}
+                ],
+                ParserStart: "MAIN"
+            },
+
+            timeout: {
+                Lexer: undefined,
+                ParserRules: [
+                    {"name": "MAIN$ebnf$1", "symbols": []},
+                    {"name": "MAIN$ebnf$1$subexpression$1", "symbols": [{"literal":"."}, "MILISECONDS"]},
+                    {"name": "MAIN$ebnf$1", "symbols": ["MAIN$ebnf$1", "MAIN$ebnf$1$subexpression$1"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+                    {"name": "MAIN", "symbols": ["SECONDS", "MAIN$ebnf$1"]},
+                    {"name": "SECONDS", "symbols": [/[0-9]/]},
+                    {"name": "SECONDS", "symbols": [/[1-9]/, /[0-9]/]},
+                    {"name": "SECONDS", "symbols": [/[1-9]/, /[0-9]/, /[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/, /[0-9]/]},
+                    {"name": "MILISECONDS", "symbols": [/[0-9]/, /[0-9]/, /[0-9]/]}
+                ],
+                ParserStart: "MAIN"
+            }
+            
+        }       
+        return grammar[fieldname]
+    }
+//]]>
+</script>

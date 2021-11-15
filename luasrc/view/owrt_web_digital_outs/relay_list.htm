@@ -1,0 +1,90 @@
+<%+owrt_web_digital_outs/ui_util/utils.js%>
+<%+owrt_web_digital_outs/ui_util/external.js%>
+<%+owrt_web_digital_outs/ui_widget/UIEventBus.js%>
+<%+owrt_web_digital_outs/ui_override/TextFieldStyled.js%>
+<%+owrt_web_digital_outs/css%>
+<%+owrt_web_digital_outs/relay.js%>
+<%+owrt_web_digital_outs/m_auto_refresh.js%>
+<%+owrt_web_digital_outs/modal_relay%>
+
+<%
+	local relay = require "luci.model.netping.relay.main"
+
+	local config = "owrt_digital_outs"
+	local uci = require "luci.model.uci".cursor()
+	local util = require "luci.util"
+
+	-- make relays table for html rendering
+	local relays = {}
+	function withEveryRelay(r)
+		if (r[".name"] ~= "relay_prototype_snmp") then
+			relays[r[".name"]] = r
+		end
+	end
+	uci:foreach(config, "info", withEveryRelay)
+
+	-- remove from iterating non-relay types
+	relays["globals"] = nil
+	relays["prototype"] = nil
+	local i = 1
+%>
+<div id="view">
+	<h2 name="content">Управление бинарными выходами</h2>
+	<div class="cbi-map-descr">В данной таблице приведены локальные и удалённые бинарные выходы. Вы можете добавить, переименовать, переключить и настроить их. Локальные бинарные выходы удалить невозможно, т.к. они встроены в устройство.</div>
+	<input type="button" class="cbi-button cbi-button-apply" style="margin-bottom: 1em;"
+		onclick="add_relay(this)"
+		value="Добавить бинарный выход"/>
+
+	<div class="table">
+		<div class="tr table-titles">
+			<div class="th" style="width: 100%;">Памятка</div>
+			<div class="th">Тип</div>
+			<div class="th state" style="width: 120px; display: block; height: 40px;">Состояние</div>
+			<div class="th status" style="width: 80px;">Статус</div>
+			<div class="th center nowrap cbi-section-actions">Управление</div>
+		</div>
+		<% for k, v in util.kspairs(relays) do %>
+			<div class="tr cbi-rowstyle-<%=i%>">
+				<div class="td" data-title="Памятка" style="text-align: left;">
+					<input type="text"
+					onchange="rename_relay(this)"
+					name="relay_name"
+					value="<%= relay(k):render('memo') %>"
+					data-relay="<%=k%>"/>
+					<script type="text/javascript">L.require('menu-bootstrap')</script>
+					<div id="<%=k%>" class="cbi-tooltip error" style="display: none;">▲ Такая памятка уже есть!</div>
+				</div>
+				<div class="td" data-title="Тип">
+					<%= relay(k):render("embedded") %>
+				</div>
+				<div class="td <%=k%> state" data-title="Состояние" data-relay="<%=k%>">
+					--
+				</div>
+				<div class="td <%=k%> status" data-title="Статус">
+					--
+				</div>
+				<div class="nowrap cbi-section-actions td">
+					<input type="button" class="cbi-button cbi-button-apply" onclick="switch_relay(this)"
+						value="Переключить"
+						data-relay="<%=k%>" 
+						style="display: initial;" />
+
+					<input type="button" class="cbi-button cbi-button-apply" onclick="edit_relay(this)"
+						value="Настройки"
+						data-action="edit"
+						data-relay="<%=k%>" 
+						data-proto="<%=v.proto%>" 
+						data-embedded="<%=v.embedded%>" 
+						style="display: initial;" />
+
+					<input type="button" class="cbi-button cbi-button-reset" onclick="delete_relay(this)"
+						value="Удалить"
+						data-relay="<%=k%>"
+						style="display: initial;" />
+				</div>
+			</div>
+			<% i = (i%2) + 1 %>
+		<% end %>
+	</div>
+</div>
+<span id="btn_enable_spinner" class="btn_spinner"></span>
