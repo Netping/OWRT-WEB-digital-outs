@@ -8,7 +8,8 @@ local relay = {}
 relay.loaded = {}
 
 function relay:new()
-	local prototype = uci:get_all(config, "relay_prototype")
+	-- local prototype = uci:get_all(config, "relay_prototype")
+	local prototype = {}
 	for _, k in pairs({".name", ".anonymous", ".type", ".index"}) do prototype[k] = nil end
 	local globals = uci:get_all(config, "globals")
 	local count = 0
@@ -22,6 +23,7 @@ function relay:new()
 	)
 	cfg = cfg .. tostring(maxcfg + 1)
 	prototype["memo"] = globals["default_memo"] .. " " .. maxcfg - 100000 + 1
+	prototype["start_state"] = globals["default_start_state"]
 	prototype["state_alias_0"] = string.sub(globals["default_state"][1], 3)
 	prototype["state_alias_1"] = string.sub(globals["default_state"][2], 3)
 	prototype["timeout"] = globals["default_timeout"]

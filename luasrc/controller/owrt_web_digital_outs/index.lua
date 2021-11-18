@@ -52,7 +52,7 @@ function get_indication()
 	local all_relays = uci:foreach(config, "info", function(relay)
 		-- if(relay[".anonymous"]) then
 			-- Get statuses of all relays
-			ubus_response = util.ubus("owrt_digital_outs", "get_state", {id_relay = 'cfg100009'})
+			ubus_response = util.ubus("owrt_digital_outs", "get_state", {id_relay = relay['.name']})
 			if(ubus_response and type(ubus_response) == "table" and ubus_response["status"] and ubus_response["state"]) then
 				relay_indication.status[relay[".name"]] = ubus_response["status"]
 				relay_indication.state[relay[".name"]] = ubus_response["state"]
@@ -93,10 +93,11 @@ function do_relay_action(action, relay_id)
 			relay(relay_id):delete()
 		end,
 		switch = function(relay_id, ...)
-			local old_state = tonumber(uci:get(config, relay_id, "state"))
-			local new_state = (old_state + 1) % 2
-			relay(relay_id):set("state", new_state)
-			util.ubus("netping_relay", "set_state", {section = string.format("%s", relay[".name"]), state = string.format("%s", new_state)})
+			-- local old_state = tonumber(uci:get(config, relay_id, "state"))
+			-- local new_state = (old_state + 1) % 2
+			-- relay(relay_id):set("state", new_state)
+			-- util.ubus("netping_relay", "set_state", {section = string.format("%s", relay[".name"]), state = string.format("%s", new_state)})
+			util.ubus("owrt_digital_outs", "switch_relay", {id_relay = relay_id})
 		end,
 		edit = function(relay_id, payloads)
 			-- apply relay settings
@@ -113,7 +114,7 @@ function do_relay_action(action, relay_id)
 				end
 			end
 			uci:commit(config)
-			notify_backend_on_commit(config)
+			-- notify_backend_on_commit(config)
 
 			-- apply settings of multiple adapters
 			-- for a_config, a_data in pairs(payload["adapter_data"]) do

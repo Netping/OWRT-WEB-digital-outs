@@ -182,7 +182,6 @@ function edit_relay(btn) {
 						' ',
 						E('div', { class: 'btn success', "name": "apply",
 							'click': ui.createHandlerFn(this, function() {
-								// We load all adapters' data, but only selected protocol data will pass the validation
 								<%
 									for atype, adapter in pairs(adapter_list) do
 										-- print(string.format('adapter_data["%s"] = %s', atype, adapter():render("getvalues")))
