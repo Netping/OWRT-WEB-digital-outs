@@ -7,29 +7,65 @@ local relay_section = "info"
 local relay = {}
 relay.loaded = {}
 
+function arr_exist(arr, val)
+	for index, value in ipairs(arr) do
+		if value == val then
+			return true
+		end
+	end
+	return false
+end
+
 function relay:new()
 	-- local prototype = uci:get_all(config, "relay_prototype")
 	local prototype = {}
 	for _, k in pairs({".name", ".anonymous", ".type", ".index"}) do prototype[k] = nil end
 	local globals = uci:get_all(config, "globals")
+
 	local count = 0
-	local maxcfg = 100000
-	local cfg = 'cfg'
+	local cfgids = {}
+	local cfgnames = {}
+	local newcfg = ''
+
 	uci:foreach(config, relay_section, function(r)
-		local cfgnum = tonumber(string.sub(r[".name"], 4))
-		if cfgnum > maxcfg then maxcfg = cfgnum end
+		cfgids[#cfgids+1] = r[".name"]
+		cfgnames[#cfgnames+1] = r["memo"]
 		count = count + 1
-		end
+	end
 	)
-	cfg = cfg .. tostring(maxcfg + 1)
-	prototype["memo"] = globals["default_memo"] .. " " .. maxcfg - 100000 + 1
+
+	local isnewcfg = false
+	local defaultcfg = 100000
+	local newcfg = ''
+	while isnewcfg == false do
+		if arr_exist(cfgids, 'cfg' .. tostring(defaultcfg)) then
+			defaultcfg = defaultcfg + 1
+		else
+			newcfg = 'cfg' .. tostring(defaultcfg)
+			isnewcfg = true
+		end
+	end
+
+	local isnewcfgname = false
+	local defaultcfgname = count
+	local newcfgname = ''
+	while isnewcfgname == false do
+		if arr_exist(cfgnames, globals["default_memo"] .. " " .. tostring(defaultcfgname + 1)) then
+			defaultcfgname = defaultcfgname + 1
+		else
+			newcfgname = globals["default_memo"] .. " " .. tostring(defaultcfgname + 1)
+			isnewcfgname = true
+		end
+	end
+
+	prototype["memo"] = newcfgname
 	prototype["start_state"] = globals["default_start_state"]
 	prototype["state_alias_0"] = string.sub(globals["default_state"][1], 3)
 	prototype["state_alias_1"] = string.sub(globals["default_state"][2], 3)
 	prototype["timeout"] = globals["default_timeout"]
 	prototype["period"] = globals["default_period"]
 
-	local relay_id = uci:section(config, relay_section, cfg, prototype) or log("Unable to do uci:section()", {relay_section, prototype})
+	local relay_id = uci:section(config, relay_section, newcfg, prototype) or log("Unable to do uci:section()", {relay_section, prototype})
 	relay.loaded = prototype
 	relay.id = relay_id
 	success = uci:commit(config) or log("Unable to uci:commit()", {config, 'New Relay'} )
