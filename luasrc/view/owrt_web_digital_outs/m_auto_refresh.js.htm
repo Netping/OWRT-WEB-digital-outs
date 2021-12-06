@@ -10,7 +10,6 @@ local globals = uci:get_all(config, "globals")
 -- Prepare state labels, customized with globals setting
 
 local state_label = {}
--- for _, s in pairs(globals["state"]) do
 for _, s in pairs(globals["default_state"]) do
 	for k, v in s.gmatch(s, "(%d+)\.(.*)") do
 		state_label[k] = v
@@ -80,7 +79,7 @@ end
 		var state_label = <%= util.serialize_json(state_label) %>
 		var status_label = <%= util.serialize_json(status_label) %>
 
-		XHR.poll(3, '<%=luci.dispatcher.build_url("admin", "system", "relay", "indication")%>', payload,
+		XHR.poll(5, '<%=luci.dispatcher.build_url("admin", "system", "relay", "indication")%>', payload,
 			function (x) {
 				if (!x) {
 					return;
@@ -94,7 +93,7 @@ end
 					if(rendered != undefined) {
 						rendered.innerHTML = state_label[state]
 					}
-				}) 
+				})
 
 				// Update Status column's value
 
@@ -104,7 +103,7 @@ end
 					if(rendered != undefined) {
 						rendered.innerHTML = status_label[status]
 					}
-				}) 
+				})
 
 				// Animate titles of Status and State columns
 

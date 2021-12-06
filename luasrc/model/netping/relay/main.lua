@@ -17,7 +17,6 @@ function arr_exist(arr, val)
 end
 
 function relay:new()
-	-- local prototype = uci:get_all(config, "relay_prototype")
 	local prototype = {}
 	for _, k in pairs({".name", ".anonymous", ".type", ".index"}) do prototype[k] = nil end
 	local globals = uci:get_all(config, "globals")

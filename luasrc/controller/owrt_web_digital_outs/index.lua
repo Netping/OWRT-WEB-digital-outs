@@ -12,8 +12,6 @@ local util = require "luci.util"
 local log = require "luci.model.netping.log"
 
 function notify_backend_on_commit(config_name)
-	-- sys.exec(string.format("ubus send testcommit '{\"config\":\"%s\"}", config_name))
-	-- util.ubus(config_name, "send commit", {config = config_name})
 	local conn = ubus.connect()
 	if not conn then
 		error("Failed to connect to ubus")
@@ -33,31 +31,24 @@ function index()
 end
 
 function get_indication()
-	--[[
-		Get operative data using ubus call
-		Return the data to web-interface as JSON
-	]]
-
 	local relay_indication = {
-		status = {
-	-- 	    ["cfg100001"] = "1",
-	-- 	    ["cfg100009"] = "0"
-		},
-		state = {
-	-- 	    ["cfg100001"] = "1",
-	-- 	    ["cfg100009"] = "0"
-		}
+		status = {},
+		state = {}
 	}
 	local ubus_response = {}
 	local all_relays = uci:foreach(config, "info", function(relay)
-		-- if(relay[".anonymous"]) then
-			-- Get statuses of all relays
-			ubus_response = util.ubus("owrt_digital_outs", "get_state", {id_relay = relay['.name']})
-			if(ubus_response and type(ubus_response) == "table" and ubus_response["status"] and ubus_response["state"]) then
-				relay_indication.status[relay[".name"]] = ubus_response["status"]
-				relay_indication.state[relay[".name"]] = ubus_response["state"]
+		util.perror(relay["proto"])
+		if(relay["proto"]) then
+			if ((relay["address"] and relay["port"] and relay["oid"]) or relay["hostport"] ) then
+				util.perror('indicate')
+				-- Get statuses of all relays
+				ubus_response = util.ubus("owrt_digital_outs", "get_state", {id_relay = relay['.name']})
+				if(ubus_response and type(ubus_response) == "table" and ubus_response["status"] and ubus_response["state"]) then
+					relay_indication.status[relay[".name"]] = ubus_response["status"]
+					relay_indication.state[relay[".name"]] = ubus_response["state"]
+				end
 			end
-		-- end
+		end
 	end)
 
 	-- Return to web-interface as JSON
@@ -73,8 +64,6 @@ function do_relay_action(action, relay_id)
 	payload["globals_data"] = luci.jsonc.parse(luci.http.formvalue("globals_data"))
 	payload["adapter_data"] = luci.jsonc.parse(luci.http.formvalue("adapter_data"))
 
-	-- type "logread for debug this:"
-	-- if type(payload) == "table" then util.dumptable(payload) else util.perror(payload) end
 	local sucsess = false
 
 	local commands = {
@@ -87,16 +76,9 @@ function do_relay_action(action, relay_id)
 			end
 		end,
 		delete = function(relay_id, ...)
-			-- for a_type, adapter in pairs(adapter_list) do
-			-- 	adapter(relay_id):delete()
-			-- end
 			relay(relay_id):delete()
 		end,
 		switch = function(relay_id, ...)
-			-- local old_state = tonumber(uci:get(config, relay_id, "state"))
-			-- local new_state = (old_state + 1) % 2
-			-- relay(relay_id):set("state", new_state)
-			-- util.ubus("netping_relay", "set_state", {section = string.format("%s", relay[".name"]), state = string.format("%s", new_state)})
 			util.ubus("owrt_digital_outs", "switch_relay", {id_relay = relay_id})
 		end,
 		edit = function(relay_id, payloads)
@@ -115,43 +97,8 @@ function do_relay_action(action, relay_id)
 			end
 			uci:commit(config)
 			-- notify_backend_on_commit(config)
-
-			-- apply settings of multiple adapters
-			-- for a_config, a_data in pairs(payload["adapter_data"]) do
-			-- 	for a_type, adapter in pairs(adapter_list) do
-			-- 		if(a_config == a_type) then
-			-- 			--adapter(relay_id):load(a_data)
-			-- 			adapter(relay_id):set(a_data)
-			-- 			adapter(relay_id):save()
-			-- 			adapter(relay_id):commit()
-			-- 		end
-			-- 	end
-				--success = uci:load(a_config) and uci:commit(a_config)
-				--socket.sleep(0.9)
-				--success = success or log(a_config .. "commit() error", a_data)
-			-- end
-
-
-			-- apply settings.globals
-			-- local allowed_global_options = util.keys(uci:get_all(config, "globals"))
-			-- for key, value in pairs(payloads["globals_data"]) do
-			-- 	if util.contains(allowed_global_options, key) then
-			-- 		if type(value) == "table" then
-			-- 			uci:set_list(config, "globals", key, value)
-			-- 		else
-			-- 			uci:set(config, "globals", key, value)
-			-- 		end
-			-- 	end
-			-- end
 		end,
 		default = function(...)
-			-- sucsess = uci:save(config)
-			-- uci:load(config)
-			-- success = uci:load(config) and uci:commit(config)
-			-- success = uci:commit(config)
-			-- uci:commit(config)
-			-- success = success or log("uci:commit() error", payload)
-
 			http.prepare_content("text/plain")
 			http.write("0")
 		end
@@ -159,6 +106,8 @@ function do_relay_action(action, relay_id)
 	if commands[action] then
 		commands[action](relay_id, payload)
 		commands["default"]()
-		notify_backend_on_commit('owrt_digital_outs')
+		if action ~= 'switch' then
+			notify_backend_on_commit('owrt_digital_outs')
+		end
 	end
 end
