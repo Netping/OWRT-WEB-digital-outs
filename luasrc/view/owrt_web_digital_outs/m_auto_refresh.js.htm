@@ -89,9 +89,17 @@ end
 
 				$.each(x.responseJSON["state"], function(id, state) {
 					var placeholder = '.td.' + id + '.state'
+					var data_action = '[data-action="switch_' + id +'"]'
 					var rendered = document.querySelector(placeholder)
+					var btn = document.querySelector(data_action)
 					if(rendered != undefined) {
 						rendered.innerHTML = state_label[state]
+					}
+					if (state != -1) {
+						btn.disabled = false
+					}
+					else {
+						btn.disabled = true
 					}
 				})
 

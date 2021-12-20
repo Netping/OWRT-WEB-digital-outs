@@ -66,15 +66,27 @@
 				<div class="nowrap cbi-section-actions td">
 					<input type="button" class="cbi-button cbi-button-apply" onclick="switch_relay(this)"
 						value="Переключить"
-						data-relay="<%=k%>" 
+						data-relay="<%=k%>"
+						data-action="switch_<%=k%>"
 						style="display: initial;" />
+
+					<script type="text/javascript" style="display:none;">
+						var divstate = document.querySelector("div.<%=k%>.state");
+						var btn = document.querySelector('[data-action="switch_<%=k%>"]');
+						if (divstate.innerText == '--') {
+							btn.disabled = true;
+						}
+						else {
+							btn.disabled = false;
+						}
+					</script>
 
 					<input type="button" class="cbi-button cbi-button-apply" onclick="edit_relay(this)"
 						value="Настройки"
 						data-action="edit"
-						data-relay="<%=k%>" 
-						data-proto="<%=v.proto%>" 
-						data-embedded="<%=v.embedded%>" 
+						data-relay="<%=k%>"
+						data-proto="<%=v.proto%>"
+						data-embedded="<%=v.embedded%>"
 						style="display: initial;" />
 
 					<input type="button" class="cbi-button cbi-button-reset" onclick="delete_relay(this)"
