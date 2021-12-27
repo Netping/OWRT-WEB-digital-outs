@@ -24,12 +24,12 @@ L.require('ui').then(function(ui) {
 						this.fields = {
 							"address": new ui.Textfield(section["address"], { 
 								maxlength: 128, 
-								validate: this.nearleyValidator("address", "Введите IP-адрес, например: 192.168.0.1")
+								validate: this.nearleyValidator("address", _("douts_address_validate"))
 							}),
 
 							"oid": new ui.Textfield(section["oid"], { 
 								maxlength: 128,
-								validate: this.nearleyValidator("oid", "Введите OID, напр.: .1.23.54.3.546.")
+								validate: this.nearleyValidator("oid", _("douts_oid_validate"))
 							}),
 
 							"port": new ui.TextFieldStyled(section["port"], { 
@@ -45,13 +45,13 @@ L.require('ui').then(function(ui) {
 							"period": new ui.TextFieldStyled(section["period"], { 
 								htmlStyle: "width: 80px",
 								datatype: "rangelength(1,7)",
-								validate: this.nearleyValidator("period", "Секунды, милисекунды: от 0.001 до 999.999")
+								validate: this.nearleyValidator("period", _("douts_period_validate"))
 							}),
 
 							"timeout": new ui.TextFieldStyled(section["timeout"], { 
 								htmlStyle: "width: 80px",
 								datatype: "rangelength(1,7)",
-								validate: this.nearleyValidator("timeout", "Секунды, милисекунды: от 0.001 до 999.999")
+								validate: this.nearleyValidator("timeout", _("douts_timeout_validate"))
 							}),
 
 
@@ -64,29 +64,29 @@ L.require('ui').then(function(ui) {
 						var classActive = (this.isActive) ? ' active' : ''
 						var container = E('div', { class: 'table modal-section-param adapter snmp' + classActive}, [
 							E('div', {class: 'tr table-titles'}, [
-								E('div', {class: 'th', style: 'width: 100%'}, _("Параметры протокола " + this.proto)),
-								E('div', {class: 'th', style: "text-align: right;"}, _("Значение")),
+								E('div', {class: 'th', style: 'width: 100%'}, _("douts_proto_params") + this.proto),
+								E('div', {class: 'th', style: "text-align: right;"}, _("douts_params_values")),
 							]),
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Адрес реле"),
+								E('div', {class: 'td'}, _("douts_address")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['address'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-2'}, [
-								E('div', {class: 'td'}, "OID"),
+								E('div', {class: 'td'}, _("douts_oid")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['oid'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Community"),
+								E('div', {class: 'td'}, _("douts_community")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['community'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-2'}, [
-								E('div', {class: 'td'}, "Порт"),
+								E('div', {class: 'td'}, _("douts_port")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['port'].render()
 								])
@@ -94,13 +94,13 @@ L.require('ui').then(function(ui) {
 							// Add new fields html-markup here
 							//
 							E('div', {class: 'tr cbi-rowstyle-2'}, [
-								E('div', {class: 'td'}, "Период, сек."),
+								E('div', {class: 'td'}, _("douts_period")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['period'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-2'}, [
-								E('div', {class: 'td'}, "Таймаут, сек."),
+								E('div', {class: 'td'}, _("douts_timeout")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['timeout'].render()
 								])

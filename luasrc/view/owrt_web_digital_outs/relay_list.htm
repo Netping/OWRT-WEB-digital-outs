@@ -29,19 +29,19 @@
 	local i = 1
 %>
 <div id="view">
-	<h2 name="content">Управление бинарными выходами</h2>
-	<div class="cbi-map-descr">В данной таблице приведены локальные и удалённые бинарные выходы. Вы можете добавить, переименовать, переключить и настроить их. Локальные бинарные выходы удалить невозможно, т.к. они встроены в устройство.</div>
+	<h2 name="content"><%:douts_page_title%></h2>
+	<div class="cbi-map-descr"><%:douts_page_description%></div>
 	<input type="button" class="cbi-button cbi-button-apply" style="margin-bottom: 1em;"
 		onclick="add_relay(this)"
-		value="Добавить бинарный выход"/>
+		value="<%:douts_add_button%>"/>
 
 	<div class="table">
 		<div class="tr table-titles">
-			<div class="th" style="width: 100%;">Памятка</div>
-			<div class="th">Тип</div>
-			<div class="th state" style="width: 120px; display: block; height: 40px;">Состояние</div>
-			<div class="th status" style="width: 80px;">Статус</div>
-			<div class="th center nowrap cbi-section-actions">Управление</div>
+			<div class="th" style="width: 100%;"><%:douts_th_memo%></div>
+			<div class="th"><%:douts_th_type%></div>
+			<div class="th state" style="width: 120px; display: block; height: 40px;"><%:douts_th_state%></div>
+			<div class="th status" style="width: 80px;"><%:douts_th_status%></div>
+			<div class="th center nowrap cbi-section-actions"><%:douts_th_control%></div>
 		</div>
 		<% for k, v in util.kspairs(relays) do %>
 			<div class="tr cbi-rowstyle-<%=i%>">
@@ -57,15 +57,15 @@
 				<div class="td" data-title="Тип">
 					<%= relay(k):render("embedded") %>
 				</div>
-				<div class="td <%=k%> state" data-title="Состояние" data-relay="<%=k%>">
+				<div class="td <%=k%> state" data-title="<%:douts_th_state%>" data-relay="<%=k%>">
 					--
 				</div>
-				<div class="td <%=k%> status" data-title="Статус">
+				<div class="td <%=k%> status" data-title="<%:douts_th_status%>">
 					--
 				</div>
 				<div class="nowrap cbi-section-actions td">
 					<input type="button" class="cbi-button cbi-button-apply" onclick="switch_relay(this)"
-						value="Переключить"
+						value="<%:douts_switch_button%>"
 						data-relay="<%=k%>"
 						data-action="switch_<%=k%>"
 						style="display: initial;" />
@@ -82,7 +82,7 @@
 					</script>
 
 					<input type="button" class="cbi-button cbi-button-apply" onclick="edit_relay(this)"
-						value="Настройки"
+						value="<%:douts_settings_button%>"
 						data-action="edit"
 						data-relay="<%=k%>"
 						data-proto="<%=v.proto%>"
@@ -90,7 +90,7 @@
 						style="display: initial;" />
 
 					<input type="button" class="cbi-button cbi-button-reset" onclick="delete_relay(this)"
-						value="Удалить"
+						value="<%:douts_delete_button%>"
 						data-relay="<%=k%>"
 						style="display: initial;" />
 				</div>

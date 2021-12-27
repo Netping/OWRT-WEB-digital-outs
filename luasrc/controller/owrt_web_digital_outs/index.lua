@@ -22,7 +22,7 @@ end
 
 function index()
 	if nixio.fs.access("/etc/config/owrt_digital_outs") then
-		entry({"admin", "system", "relay"}, cbi("owrt_web_digital_outs/relay"), "Digital Outs", 30)
+		entry({"admin", "system", "relay"}, cbi("owrt_web_digital_outs/relay"), translate("douts_tab"), 30)
 		entry({"admin", "system", "relay", "action"}, call("do_relay_action"), nil).leaf = true
 		-- entry({"admin", "system", "alerts"}, cbi("owrt_digital_outs/alert"), nil).leaf = true
 		-- entry({"admin", "system", "alerts", "action"}, call("do_action"), nil).leaf = true

@@ -122,16 +122,18 @@ function relay:render(optname)
 
 		embedded = function()
 			-- return relay.loaded["embedded"] == '1' and "Локально" or "Удалённо"
+			local dtype
 			local embedded = relay.loaded["proto"]
 			if embedded == 'SNMP' or embedded == 'HTTP' then
-				return "Удалённо"
+			        dtype = "Remote"
 			else
 				if embedded == 'GPIO' or embedded == '1-wire' or embedded == 'I2C' or embedded == 'CAN' then
-					return "Локально"
+					dtype = "Local"
 				else
-					return "Не определено"
+					dtype = "Not definite"
 				end
 			end
+			return dtype
 		end,
 
 		-- All trivial options are rendered as is.

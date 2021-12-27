@@ -1,0 +1,174 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Project-Id-Version: \n"
+"Last-Translator: NetPing\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"X-Generator: Poedit 3.0\n"
+
+msgid ""
+msgstr "Content-Type: text/plain; charset=UTF-8"
+
+#: luasrc/view/owrt_web_digital_outs/relay.js.htm:120
+msgid "Loading"
+msgstr "Загрузка"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:36
+msgid "douts_add_button"
+msgstr "Добавить бинарный выход"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:71
+msgid "douts_address"
+msgstr "Адрес"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:27
+msgid "douts_address_validate"
+msgstr "Введите IP-адрес, например: 192.168.0.1"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:181
+msgid "douts_close"
+msgstr "Закрыть"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:83
+msgid "douts_community"
+msgstr "Ключ"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:93
+msgid "douts_delete_button"
+msgstr "Удалить"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:115
+msgid "douts_edit_output_title"
+msgstr "Редактировать бинарный выход"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:64
+msgid "douts_hostport"
+msgstr "Хост:порт"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:27
+msgid "douts_hostport_validate"
+msgstr "Введите хост:порт, например: 192.168.0.1:85"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:70
+msgid "douts_login"
+msgstr "Логин"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:120
+msgid "douts_memo"
+msgstr "Памятка"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:77
+msgid "douts_oid"
+msgstr "OID"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:32
+msgid "douts_oid_validate"
+msgstr "Введите OID, например: .1.23.54.3.546"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:33
+msgid "douts_page_description"
+msgstr "В данной таблице приведены локальные и удалённые бинарные выходы. Вы можете добавить, переименовать, переключить и настроить их. Локальные бинарные выходы удалить невозможно, т.к. они встроены в устройство."
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:32
+msgid "douts_page_title"
+msgstr "Управление бинарными выходами"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:61
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:68
+msgid "douts_params_values"
+msgstr "Значение"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:76
+msgid "douts_password"
+msgstr "Пароль"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:83
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:97
+msgid "douts_period"
+msgstr "Период"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:43
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:48
+msgid "douts_period_validate"
+msgstr "Секунды, милисекунды: от 0.001 до 999.999"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:89
+msgid "douts_port"
+msgstr "Порт"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:135
+msgid "douts_proto"
+msgstr "Протокол"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:60
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:67
+msgid "douts_proto_params"
+msgstr "Параметры протокола "
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:233
+msgid "douts_save"
+msgstr "Сохранить"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:85
+msgid "douts_settings_button"
+msgstr "Настройки"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:126
+msgid "douts_state_description"
+msgstr "Расшифровка состояния"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:130
+msgid "douts_state_description_off"
+msgstr "соответствует состоянию 'Выключено'"
+
+#: luasrc/view/owrt_web_digital_outs/modal_relay.htm:129
+msgid "douts_state_description_on"
+msgstr "соответствует состоянию 'Включено'"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:68
+msgid "douts_switch_button"
+msgstr "Переключить"
+
+#: luasrc/controller/owrt_web_digital_outs/index.lua:25
+msgid "douts_tab"
+msgstr "Бинарные выходы"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:44
+msgid "douts_th_control"
+msgstr "Управление"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:40
+msgid "douts_th_memo"
+msgstr "Памятка"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:42
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:60
+#: luasrc/view/owrt_web_digital_outs/m_auto_refresh.js.htm:66
+msgid "douts_th_state"
+msgstr "Состояние"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:43
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:63
+#: luasrc/view/owrt_web_digital_outs/m_auto_refresh.js.htm:68
+msgid "douts_th_status"
+msgstr "Статус"
+
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:41
+msgid "douts_th_type"
+msgstr "Тип"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:89
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:103
+msgid "douts_timeout"
+msgstr "Таймаут"
+
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/HTTP.js.htm:49
+#: luasrc/view/owrt_web_digital_outs/ui_adapter/SNMP.js.htm:54
+msgid "douts_timeout_validate"
+msgstr "Секунды, милисекунды: от 0.001 до 999.999"

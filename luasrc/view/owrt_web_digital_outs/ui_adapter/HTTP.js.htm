@@ -24,7 +24,7 @@ L.require('ui').then(function(ui) {
 						this.fields = {
 							"hostport": new ui.Textfield(section["hostport"], { 
 								maxlength: 128, 
-								validate: this.nearleyValidator("hostport", "Введите хост:порт, например: 192.168.0.1:85")
+								validate: this.nearleyValidator("hostport", _("douts_hostport_validate"))
 							}),
 
 							"login": new ui.TextFieldStyled(section["login"], { 
@@ -40,13 +40,13 @@ L.require('ui').then(function(ui) {
 							"period": new ui.TextFieldStyled(section["period"], { 
 								datatype: "rangelength(1,7)",
 								htmlStyle: "width: 96px",
-								validate: this.nearleyValidator("period", "Cекунды.милисекунды, от 0.001 до 999.999")
+								validate: this.nearleyValidator("period", _("douts_period_validate"))
 							}),
 
 							"timeout": new ui.TextFieldStyled(section["timeout"], { 
 								datatype: "rangelength(1,7)",
 								htmlStyle: "width: 96px",
-								validate: this.nearleyValidator("timeout", "Cекунды.милисекунды, от 0.001 до 999.999")
+								validate: this.nearleyValidator("timeout", _("douts_timeout_validate"))
 							})
 						}
 						//--------------------------------------------------------
@@ -57,36 +57,36 @@ L.require('ui').then(function(ui) {
 						var classActive = (this.isActive) ? ' active' : ''
 						var container = E('div', { class: 'table modal-section-param adapter http' + classActive}, [
 							E('div', {class: 'tr table-titles'}, [
-								E('div', {class: 'th', style: 'width: 100%'}, _("Параметры протокола " + this.proto)),
-								E('div', {class: 'th', style: "text-align: right;"}, _("Значение")),
+								E('div', {class: 'th', style: 'width: 100%'}, _("douts_proto_params") + this.proto),
+								E('div', {class: 'th', style: "text-align: right;"}, _("douts_params_values")),
 							]),
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Адрес/порт удалённого реле"),
+								E('div', {class: 'td'}, _("douts_hostport")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['hostport'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-2'}, [
-								E('div', {class: 'td'}, "Логин"),
+								E('div', {class: 'td'}, _("douts_login")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['login'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Пароль"),
+								E('div', {class: 'td'}, _("douts_password")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['password'].render()
 								])
 							]),
 
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Период, сек."),
+								E('div', {class: 'td'}, _("douts_period")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['period'].render()
 								])
 							]),
 							E('div', {class: 'tr cbi-rowstyle-1'}, [
-								E('div', {class: 'td'}, "Таймаут, сек."),
+								E('div', {class: 'td'}, _("douts_timeout")),
 								E('div', {class: 'td', style: "text-align: right;"}, [
 									this.fields['timeout'].render()
 								])
