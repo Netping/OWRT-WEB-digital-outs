@@ -117,22 +117,22 @@ function edit_relay(btn) {
 						E('div', { class: 'cbi-map-section' }, [
 							E('div', { class: 'cbi-map-section-node' }, [
 								E('div', { class: 'cbi-value' }, [
-									E('label', { 'class': 'cbi-value-title memo-edit' }, _('<%:douts_memo%>') + ":"),
+									E('label', { 'class': 'cbi-value-title memo-edit' }, _("douts_memo") + ":"),
 									E('div', { class: 'cbi-value-field memo-edit' }, [
 										memo.render()
 									])
 								]),
 								E('div', { class: 'cbi-value' }, [
-									E('label', { 'class': 'cbi-value-title'}, _('<%:douts_state_description%>') + ":"),
+									E('label', { 'class': 'cbi-value-title'}, _("douts_state_description") + ":"),
 									E('div', { class: 'cbi-value-field' }, [
 										E('table', {class: 'cbi-2cols'}, [
-											E('tr', [E('td', [state_on_term.render()]), E('td', _('<%:douts_state_description_on%>'))]),
-											E('tr', [E('td', [state_off_term.render()]), E('td', _('<%:douts_state_description_off%>'))])
+											E('tr', [E('td', [state_on_term.render()]), E('td', _("douts_state_description_on"))]),
+											E('tr', [E('td', [state_off_term.render()]), E('td', _("douts_state_description_off"))])
 										])
 									])
 								]),
 								E('div', { class: 'cbi-value' }, [
-									E('label', { 'class': 'cbi-value-title' }, _('<%:douts_proto%>') + ":"),
+									E('label', { 'class': 'cbi-value-title' }, _("douts_proto") + ":"),
 									E('div', { class: 'cbi-value-field' }, [
 										E('div', { class: 'cbi-value-field-flex'}, [
 											E('div', { class: 'cbi-value-field-1col'}, [
@@ -178,7 +178,7 @@ function edit_relay(btn) {
 						E('div', { 
 							class: 'btn', 
 							click: function() { L.hideModal() }
-						}, _('<%:douts_close%>')),
+						}, _("douts_close")),
 						' ',
 						E('div', { class: 'btn success', "name": "apply",
 							'click': ui.createHandlerFn(this, function() {
@@ -230,7 +230,7 @@ function edit_relay(btn) {
 								}
 
 							})
-						}, _('<%:douts_save%>'))
+						}, _("douts_save"))
 					])
 				]);
 			})	

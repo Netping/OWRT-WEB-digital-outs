@@ -45,7 +45,7 @@
 		</div>
 		<% for k, v in util.kspairs(relays) do %>
 			<div class="tr cbi-rowstyle-<%=i%>">
-				<div class="td" data-title="Памятка" style="text-align: left;">
+				<div class="td" data-title="douts_memo" style="text-align: left;">
 					<input type="text"
 					onchange="rename_relay(this)"
 					name="relay_name"
@@ -57,10 +57,10 @@
 				<div class="td" data-title="Тип">
 					<%= relay(k):render("embedded") %>
 				</div>
-				<div class="td <%=k%> state" data-title="<%:douts_th_state%>" data-relay="<%=k%>">
+				<div class="td <%=k%> state" data-title="douts_state" data-relay="<%=k%>">
 					--
 				</div>
-				<div class="td <%=k%> status" data-title="<%:douts_th_status%>">
+				<div class="td <%=k%> status" data-title="douts_status">
 					--
 				</div>
 				<div class="nowrap cbi-section-actions td">
