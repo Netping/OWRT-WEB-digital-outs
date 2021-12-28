@@ -147,6 +147,10 @@ msgstr "Управление"
 msgid "douts_th_memo"
 msgstr "Памятка"
 
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:55
+msgid "douts_memo_validate"
+msgstr "▲ Такая памятка уже есть!"
+
 #: luasrc/view/owrt_web_digital_outs/relay_list.htm:42
 #: luasrc/view/owrt_web_digital_outs/relay_list.htm:60
 #: luasrc/view/owrt_web_digital_outs/m_auto_refresh.js.htm:66

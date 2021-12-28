@@ -52,7 +52,7 @@
 					value="<%= relay(k):render('memo') %>"
 					data-relay="<%=k%>"/>
 					<script type="text/javascript">L.require('menu-bootstrap')</script>
-					<div id="<%=k%>" class="cbi-tooltip error" style="display: none;">▲ Такая памятка уже есть!</div>
+					<div id="<%=k%>" class="cbi-tooltip error" style="display: none;"><%:douts_memo_validate%></div>
 				</div>
 				<div class="td" data-title="Тип">
 					<%= relay(k):render("embedded") %>

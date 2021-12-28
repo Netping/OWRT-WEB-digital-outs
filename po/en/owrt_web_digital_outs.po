@@ -147,14 +147,16 @@ msgstr "Control"
 msgid "douts_th_memo"
 msgstr "Name"
 
+#: luasrc/view/owrt_web_digital_outs/relay_list.htm:55
+msgid "douts_memo_validate"
+msgstr "▲ There is already such a Name!"
+
 #: luasrc/view/owrt_web_digital_outs/relay_list.htm:42
-#: luasrc/view/owrt_web_digital_outs/relay_list.htm:60
 #: luasrc/view/owrt_web_digital_outs/m_auto_refresh.js.htm:66
 msgid "douts_th_state"
 msgstr "State"
 
 #: luasrc/view/owrt_web_digital_outs/relay_list.htm:43
-#: luasrc/view/owrt_web_digital_outs/relay_list.htm:63
 #: luasrc/view/owrt_web_digital_outs/m_auto_refresh.js.htm:68
 msgid "douts_th_status"
 msgstr "Status"
