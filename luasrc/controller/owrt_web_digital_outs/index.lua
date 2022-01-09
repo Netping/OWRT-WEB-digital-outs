@@ -2,14 +2,14 @@ module("luci.controller.owrt_web_digital_outs.index", package.seeall)
 
 local config = "owrt_digital_outs"
 
-local relay = require "luci.model.netping.relay.main"
+local relay = require "luci.model.owrt_web_digital_outs.relay.main"
 
 require "ubus"
 
 local http = require "luci.http"
 local uci = require "luci.model.uci".cursor()
 local util = require "luci.util"
-local log = require "luci.model.netping.log"
+local log = require "luci.model.owrt_web_digital_outs.log"
 
 function notify_backend_on_commit(config_name)
 	local conn = ubus.connect()

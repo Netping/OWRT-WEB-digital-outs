@@ -1,7 +1,7 @@
 local fs = require "nixio.fs"
 local uci = require "luci.model.uci".cursor()
 local util = require "luci.util"
-local log = require "luci.model.netping.log"
+local log = require "luci.model.owrt_web_digital_outs.log"
 ---------------------------------------------------------
 --------- Change these when create new adapter ----------
 -- local adapter_config = "netping_luci_relay_adapter_snmp"

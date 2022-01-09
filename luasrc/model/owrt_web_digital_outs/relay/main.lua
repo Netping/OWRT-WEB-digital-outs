@@ -1,6 +1,6 @@
 local uci = require "luci.model.uci".cursor()
 local util = require "luci.util"
-local log = require "luci.model.netping.log"
+local log = require "luci.model.owrt_web_digital_outs.log"
 local config = "owrt_digital_outs"
 local relay_section = "info"
 

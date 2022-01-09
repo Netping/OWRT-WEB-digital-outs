@@ -3,12 +3,12 @@
 	https://netping.atlassian.net/wiki/spaces/PROJ/pages/2809857522/html-
 -->
 <%
-local log = require "luci.model.netping.log"
-local fl = require 'luci.model.netping.relay.filelist'
-local vlist = fl({ path = '/www/' .. resource .. '/netping/nearley/validator/', grep = '.js$' })
+local log = require "luci.model.owrt_web_digital_outs.log"
+local fl = require 'luci.model.owrt_web_digital_outs.relay.filelist'
+local vlist = fl({ path = '/www/' .. resource .. '/owrt_web_digital_outs/nearley/validator/', grep = '.js$' })
 log("VALIDATOR", vlist)
 for i=1, #vlist do %>
-	<script type="text/javascript" src="<%=resource%>/netping/nearley/validator/<%=vlist[i] %>"></script>
+	<script type="text/javascript" src="<%=resource%>/owrt_web_digital_outs/nearley/validator/<%=vlist[i] %>"></script>
 <% end %>
 
 

@@ -2,12 +2,12 @@
 	local config = "owrt_digital_outs"
 	local uci = require "luci.model.uci".cursor()
 	local util = require "luci.util"
-	local log = require "luci.model.netping.log"
+	local log = require "luci.model.owrt_web_digital_outs.log"
 	local globals = uci:get_all(config, "globals")
 
 %>
 <%
-	local adapter_list = require "luci.model.netping.relay.adapter_list"
+	local adapter_list = require "luci.model.owrt_web_digital_outs.relay.adapter_list"
 	local dropdown, dropdown_js, name = {}, '', ''
 	for adptype, adapter in pairs(adapter_list) do
 		print(adapter():render("cssfile"))
