@@ -1,8 +1,8 @@
 SECTION="NetPing modules"
 CATEGORY="Base"
-TITLE="EPIC OWRT_WEB_digital_outs"
+TITLE="EPIC OWRT-WEB-digital-outs"
 
-PKG_NAME="OWRT_WEB_digital_outs"
+PKG_NAME="OWRT-WEB-digital-outs"
 PKG_VERSION=0.1
 PKG_RELEASE=1
 PKG_DEPENDS=OWRT_Digital_outs
@@ -17,7 +17,7 @@ INSTALL_DIR =
 
 .PHONY: all install
 
-all: install
+all: configure build install
 
 build:
 	@echo "Nothing to do"
@@ -28,23 +28,20 @@ configure:
 install:
 ifeq ($(origin INSTALL_DIR),command line)
 	for dir in $(MODULE_FILES_DIR) $(STATIC_FILES_DIR); do mkdir -p $(INSTALL_DIR)$${dir}; done
+else
+	for dir in $(MODULE_FILES_DIR) $(STATIC_FILES_DIR); do mkdir -p $(INSTALL_DIR)$${dir}; done
 endif
 	cp -r $(MODULE_FILES) $(INSTALL_DIR)$(MODULE_FILES_DIR)
 	cp -r $(STATIC_FILES) $(INSTALL_DIR)$(STATIC_FILES_DIR)
 
 clean:
-ifeq ($(INSTALL_DIR),command line)
+ifeq ($(origin INSTALL_DIR),command line)
+	rm -rf $(INSTALL_DIR)
+else
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)controller/$(MODULE_NAME)
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)model/$(MODULE_NAME)
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)model/cbi/$(MODULE_NAME)
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)view/$(MODULE_NAME)
 	rm $(INSTALL_DIR)$(MODULE_FILES_DIR)i18n/$(MODULE_NAME).*.lmo
 	rm -r $(INSTALL_DIR)$(STATIC_FILES_DIR)$(MODULE_NAME)
-else
-endif
-	rm -r $(MODULE_FILES_DIR)controller/$(MODULE_NAME)
-	rm -r $(MODULE_FILES_DIR)model/$(MODULE_NAME)
-	rm -r $(MODULE_FILES_DIR)model/cbi/$(MODULE_NAME)
-	rm -r $(MODULE_FILES_DIR)view/$(MODULE_NAME)
-	rm $(MODULE_FILES_DIR)i18n/$(MODULE_NAME).*.lmo
-	rm -r $(STATIC_FILES_DIR)$(MODULE_NAME)
+	$(if $(strip $(INSTALL_DIR)),rm -r $(INSTALL_DIR),)
