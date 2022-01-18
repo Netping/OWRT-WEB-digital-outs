@@ -45,3 +45,4 @@ else
 	rm $(INSTALL_DIR)$(MODULE_FILES_DIR)i18n/$(MODULE_NAME).*.lmo
 	rm -r $(INSTALL_DIR)$(STATIC_FILES_DIR)$(MODULE_NAME)
 	$(if $(strip $(INSTALL_DIR)),rm -r $(INSTALL_DIR),)
+endif
