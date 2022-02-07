@@ -1,11 +1,11 @@
 SECTION="NetPing modules"
 CATEGORY="Base"
-TITLE="EPIC OWRT-WEB-digital-outs"
+TITLE="OWRT-WEB-digital-outs"
 
 PKG_NAME="OWRT-WEB-digital-outs"
 PKG_VERSION=0.1
 PKG_RELEASE=1
-PKG_DEPENDS=OWRT_Digital_outs
+PKG_DEPENDS=OWRT-digital-outs
 
 MODULE_NAME = owrt_web_digital_outs
 MODULE_FILES = luasrc/*
