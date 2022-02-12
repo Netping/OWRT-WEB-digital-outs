@@ -4,7 +4,7 @@ TITLE="OWRT-WEB-digital-outs"
 
 PKG_NAME="OWRT-WEB-digital-outs"
 PKG_VERSION=0.1
-PKG_RELEASE=1
+PKG_RELEASE=2
 PKG_DEPENDS=OWRT-digital-outs
 
 MODULE_NAME = owrt_web_digital_outs
@@ -17,9 +17,12 @@ INSTALL_DIR =
 
 .PHONY: all install
 
-all: configure build install
+all: build preinstall install configure
 
 build:
+	@echo "Nothing to do"
+
+preinstall:
 	@echo "Nothing to do"
 
 configure:
