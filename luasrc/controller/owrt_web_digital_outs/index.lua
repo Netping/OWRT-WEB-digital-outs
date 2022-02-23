@@ -31,9 +31,11 @@ function index()
 end
 
 function get_indication()
+	local mtime = nixio.fs.stat("/etc/config/owrt_digital_outs").mtime
 	local relay_indication = {
 		status = {},
-		state = {}
+		state = {},
+		mtime = {}
 	}
 	local ubus_response = {}
 	local all_relays = uci:foreach(config, "info", function(relay)
@@ -46,6 +48,7 @@ function get_indication()
 				if(ubus_response and type(ubus_response) == "table" and ubus_response["status"] and ubus_response["state"]) then
 					relay_indication.status[relay[".name"]] = ubus_response["status"]
 					relay_indication.state[relay[".name"]] = ubus_response["state"]
+					relay_indication.mtime[relay[".name"]] = mtime
 				end
 			end
 		end
