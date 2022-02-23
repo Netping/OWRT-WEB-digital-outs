@@ -87,6 +87,10 @@ end
 
 				// Update State column's value
 
+				$.each(x.responseJSON["mtime"], function(id, mtime) {
+					if (begin_mtime != mtime) { window.location.reload (); }
+				})
+
 				$.each(x.responseJSON["state"], function(id, state) {
 					var placeholder = '.td.' + id + '.state'
 					var data_action = '[data-action="switch_' + id +'"]'
