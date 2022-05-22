@@ -4,20 +4,22 @@ TITLE="OWRT-WEB-digital-outs"
 
 PKG_NAME="OWRT-WEB-digital-outs"
 PKG_VERSION=0.1
-PKG_RELEASE=2
-PKG_DEPENDS=OWRT-digital-outs
+PKG_RELEASE=7
+PKG_DEPENDS=OWRT-digital-outs luci-base luci-compat
 
 MODULE_NAME = owrt_web_digital_outs
 MODULE_FILES = luasrc/*
-MODULE_FILES_DIR ?= /usr/lib/lua/luci/
-STATIC_FILES = htdocs/luci-static/resources/*
-STATIC_FILES_DIR ?= /www/luci-static/resources/
+MODULE_FILES_DIR = /usr/lib/lua/luci/
+STATIC_FILES = netping/*
+STATIC_FILES_DIR = /www/luci-static/netping/
 
 INSTALL_DIR =
 
-.PHONY: all install
+.PHONY: all
 
 all: build preinstall install configure
+
+ipk: build install
 
 build:
 	@echo "Nothing to do"
@@ -29,23 +31,19 @@ configure:
 	@echo "Nothing to do"
 
 install:
-ifeq ($(origin INSTALL_DIR),command line)
-	for dir in $(MODULE_FILES_DIR) $(STATIC_FILES_DIR); do mkdir -p $(INSTALL_DIR)$${dir}; done
+ifneq ($(INSTALL_DIR),)
+	mkdir -p $(INSTALL_DIR)$(MODULE_FILES_DIR)
+	mkdir -p $(INSTALL_DIR)$(STATIC_FILES_DIR)
 else
-	for dir in $(MODULE_FILES_DIR) $(STATIC_FILES_DIR); do mkdir -p $(INSTALL_DIR)$${dir}; done
+	mkdir -p $(MODULE_FILES_DIR)
+	mkdir -p $(STATIC_FILES_DIR)
 endif
 	cp -r $(MODULE_FILES) $(INSTALL_DIR)$(MODULE_FILES_DIR)
 	cp -r $(STATIC_FILES) $(INSTALL_DIR)$(STATIC_FILES_DIR)
 
+remove: clean
+
 clean:
-ifeq ($(origin INSTALL_DIR),command line)
-	rm -rf $(INSTALL_DIR)
-else
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)controller/$(MODULE_NAME)
-	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)model/$(MODULE_NAME)
-	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)model/cbi/$(MODULE_NAME)
 	rm -r $(INSTALL_DIR)$(MODULE_FILES_DIR)view/$(MODULE_NAME)
-	rm $(INSTALL_DIR)$(MODULE_FILES_DIR)i18n/$(MODULE_NAME).*.lmo
-	rm -r $(INSTALL_DIR)$(STATIC_FILES_DIR)$(MODULE_NAME)
-	$(if $(strip $(INSTALL_DIR)),rm -r $(INSTALL_DIR),)
-endif
+	rm -r $(INSTALL_DIR)$(STATIC_FILES_DIR)$(MODULE_NAME).*

@@ -1,0 +1,202 @@
+table.digital_outs-header {
+    width: 650px;
+    border: 0px double black;
+    margin-left: 0px;
+    padding: 0;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+    border-bottom: 1px double #484;
+
+}
+
+table.d_o-body {
+    width: 870px;
+    border: 0px double black;
+    margin-left: 0px;
+    padding: 0;
+    font-size: 13px;
+    text-align: center;
+}
+
+table.d_o-body tr td {
+    padding: 5px 0px 5px 0px;
+    border-bottom: 1px double #484;
+}
+
+.cbi-button {
+    margin-top: 5px;
+    padding: 5px 14px 6px 14px;
+}
+
+table tr td {
+    border: 0px double black;
+}
+
+table.d_o-header tr td {
+    border: 0px double black;
+    font-weight: bold;
+    margin-left: 0px;
+    padding: 0;
+    text-align: center;
+}
+
+form .input, .cbi-value-field {
+  margin-left: 10px;
+}
+
+.cbi-value label.cbi-value-title {
+    padding-top: 0px;
+    font-size: 13px;
+    line-height: 18px;
+    float: left;
+    width: 10px;
+    text-align: right;
+    color: #404040;
+}
+
+input[type="checkbox"] {
+    display: inline-block;
+    cursor: default;
+    width: auto;
+    height: auto;
+    *margin-top: 0;
+    line-height: normal;
+    border: none;
+    margin: 3px 0;
+    padding: 0;
+}
+
+input, textarea, select {
+    display: inline-block;
+    width: 100%;
+    font-size: 13px;
+    line-height: 18px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 4px;
+}
+
+form .clearfix, .cbi-value {
+    margin-bottom: 0px;
+}
+
+div.cbi-section-remove  {
+    float: right;
+    margin-top: 1px;
+    display: inline-block;
+}
+
+div.cbi-checkbox  {
+margin-top: 0px;
+}
+
+.cbi-section-create {
+    display: inline-flex;
+    align-items: center;
+    margin: 0px;
+}
+
+.cbi-optionals, .cbi-section-create {
+    padding: 10px 0 0 0;
+}
+
+div.settings_window {
+    width: 900px;
+    height: 560px;
+    overflow: auto;
+    text-align: left;
+    padding: 15px;
+    border: 2px solid black;
+    background-color: #ffffff;
+    border-radius: 5px;
+    color: #0000cc;
+    display: block;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;       
+    margin: auto;
+}
+
+div.gray_background {
+    background: rgba(255, 255, 255, 0.8);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+table.d_o_edit {
+    width: 100%;
+}
+
+table.d_o_edit td {
+    height: 40px;
+    font-size: 15px;
+    text-align: right;
+    padding-right: 15px;
+    color: #000;
+}
+
+input.d_o_edit {
+    width: 600px;
+}
+
+input.date_begin, input.date_end {
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+input.date_remove {
+    margin-bottom: 10px;
+}
+
+div.div_attention {
+    border: 0px double black;
+    height: 100px;
+    float: left;
+    width: 400px;
+    font-size: 15px;
+    text-align: right;
+    padding: 30px;
+    color: #000;
+}
+
+div.time_intervals {
+    border: 0px double black;
+    width: 450px;
+    float: right;
+}
+
+input.settings_button {
+width: 100%;
+display: inline-block;
+background: linear-gradient(#fff,#fff 25%,#e6e6e6) no-repeat;
+text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+color: #333;
+font-size: 13px;
+line-height: normal;
+border: 1px solid #ccc;
+padding: 5px 14px 6px 14px;
+}
+
+input.delete_button {
+width: 100%;
+display: inline-block;
+background: linear-gradient(#fff,#fff 25%,#e6e6e6) no-repeat;
+text-shadow: 0 1px 1px rgba(255,255,255,0.75);
+font-size: 13px;
+line-height: normal;
+border: 1px solid #c44;
+padding: 5px 14px 6px 14px;
+color: #c44;
+}
+
+div.cbi-section-error {
+width: 500px;
+background-color: #fff;
+border: 0px double black;
+text-align: left;
+}

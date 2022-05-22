@@ -1,0 +1,66 @@
+<%+header%>
+<link rel="stylesheet" href="/luci-static/netping/owrt_web_digital_outs.css">
+<script src="/luci-static/netping/owrt_web_digital_outs.js"></script>
+<script>
+var question_delete = "<%:Delete this item?%>";
+var status_0="<%:Ok%>"; var status_1="<%:Timeout%>"; var status_2="<%:Error%>";
+</script>
+<h2><%:Binary output control%></h2>
+<table><tr><td><%:This table shows local and remote binary outputs. You can add, rename, switch and customize them. The local binary outputs cannot be deleted, since they are built into the device.%></td></tr></table><p></p>
+<table class='d_o-header'><tr><td width=100px><%:Start state%></td><td width=250px><%:Name%></td><td width=100px><%:Type%></td><td width=100px><%:State%></td><td width=100px><%:Status%></td></tr></table>
+<%
+local config = "owrt-digital-outs"
+
+cours = luci.model.uci.cursor()
+default_state_list=cours:get_list(config, "globals", "default_state")
+status_list=cours:get_list(config, "globals", "status")
+
+cours:foreach(config, "info", function(s)
+if s[".name"] == 'relay_prototype_snmp' then return end %>
+
+<table class='d_o-body'><tr>
+<td width=100px>
+<select class='select_edit' id='select_edit_<%=s[".name"]%>' name='select_edit_<%=s[".name"]%>' type='Value' onChange="select_click(<%=s[".name"]%>, this.value);" />
+<% if (s.start_state==nil) then s.start_state="0" end %>
+<option id='select_edit_<%=s[".name"].."_No"%>' name='select_edit_<%=s[".name"].."_No"%>' value='NO' <%=((string.upper(s.start_state)=="NO") and 'selected="selected"' or "")%>>--</option>
+<option id='select_edit_<%=s[".name"].."_On"%>' name='select_edit_<%=s[".name"].."_On"%>' value='1' <%=((string.upper(s.start_state)=="1") and 'selected="selected"' or "")%>><%:On%></option>
+<option id='select_edit_<%=s[".name"].."_Off"%>' name='select_edit_<%=s[".name"].."_Off"%>' value='0' <%=((string.upper(s.start_state)=="0") and 'selected="selected"' or "")%>><%:Off%></option>
+</select>
+</td>
+
+<td width=250px><%=s.memo%></td>
+<td width=100px><%=s.proto%></td>
+<td width=100px><div id='<%=s[".name"]%>_state'>--</div></td>
+<td width=100px><div id='<%=s[".name"]%>_status'>--</div></td>
+<td width=100px>
+<input type='button' onclick='settings_click("<%=s[".name"]%>");' value='<%:Settings%>' class='settings_button'></td><td width=10px>
+</td><td><input type='button' onclick='delete_click("<%=s[".name"]%>");' value='<%:Delete%>' class='delete_button'></td></tr>
+</table>
+
+<% end) %>
+<p><table><tr><td width=70px><input type='button' onclick='add_click();' value='<%:Add%>' class='delete_button'></td><td></td></tr></table></p>
+
+<div id='div_gray_background' class='gray_background'><div id='div_settings_window' class='settings_window'>
+<h3><%:Edit binary output%></h3><input id='d_o_edit_id' type='hidden' /><table class='d_o_edit'>
+<tr><td width=400px><%:Name%></td><td><input class='d_o_edit' id='d_o_edit_memo' type='text' /></td></tr>
+<tr><td><%:Corresponds to the 'Enabled' state%></td><td><input class='d_o_edit' id='d_o_edit_state_alias_1' type='text' /></td></tr>
+<tr><td><%:Corresponds to the 'Disabled' state%></td><td><input class='d_o_edit' id='d_o_edit_state_alias_0' type='text' /></td></tr>
+<tr><td><%:Protocol%></td><td style="text-align: left;">SNMP</td></tr>
+<tr><td><%:Address%></td><td><input class='d_o_edit' id='d_o_edit_address' type='text' /></td></tr>
+<tr><td><%:OID%></td><td><input class='d_o_edit' id='d_o_edit_oid' type='text' /></td></tr>
+<tr><td><%:Community%></td><td><input class='d_o_edit' id='d_o_edit_community' type='text' /></td></tr>
+<tr><td><%:Port%></td><td><input class='d_o_edit' id='d_o_edit_port' type='text' /></td></tr>
+<tr><td><%:Period%></td><td><input class='d_o_edit' id='d_o_edit_period' type='text' /></td></tr>
+<tr><td><%:Timeout%></td><td><input class='d_o_edit' id='d_o_edit_timeout' type='text' /></td></tr>
+</table><br>
+<p></p><input class='cbi-button' type='button' value='<%:Save%>' onClick='save_settings();' />&nbsp;<input class='cbi-button' type='button' value='<%:Cancel%>' onClick='location.reload();' />
+</div>
+</div></div>
+
+<script>
+document.getElementById('indicators').innerHTML ="<span data-indicator='poll-status' data-clickable='true' data-style='active'><%:Refreshing%></span>"; 
+var d_o_mtime='<%=nixio.fs.stat("/etc/config/owrt-digital-outs").mtime%>';
+refreshing_xhr = XHR.poll(5, '/cgi-bin/luci/admin/services/digital_outs/refresh', {}, function(x) { if (d_o_mtime != x.responseText) { location.reload(); }}); 
+status_refresh = XHR.poll(5, '/cgi-bin/luci/admin/services/digital_outs/status_refresh', {}, function(x) { status_view((x.responseText)); }); 
+</script>
+<%+footer%>
